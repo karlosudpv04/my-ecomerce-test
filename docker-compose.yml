@@ -1,0 +1,37 @@
+services:
+  my-ecomerce-front:
+    build: .
+    image: karlostcp/my-ecomerce-front:v1.0.2
+    container_name: my-ecomerce-front-container
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: my-ecomerce-db-container
+      MYSQL_USER: dbadmin
+      MYSQL_PASSWORD: 5xzDZ00
+      MYSQL_DATABASE: db-my-ecomerce
+    networks:
+      - my-ecomerce-net
+
+  my-ecomerce-db:
+    build: .
+    image: karlostcp/my-ecomerce-db:v1.1.2
+    container_name: my-ecomerce-db-container
+    environment:
+      MYSQL_ROOT_PASSWORD: passr00t
+      MYSQL_DATABASE: db-my-ecomerce
+      MYSQL_USER: dbadmin
+      MYSQL_PASSWORD: 5xzDZ00
+    ports:
+      - "3306:3306"
+    networks:
+      - my-ecomerce-net
+    volumes:
+      - mi-volumen-datos:/var/lib/mysql
+
+networks:
+  my-ecomerce-net:
+    driver: bridge
+
+volumes:
+  mi-volumen-datos:
